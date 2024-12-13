@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Time Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://example.com/space-galaxy.jpg'); /* Replace with your actual space galaxy image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+        }
+        .time-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffd700; /* Golden yellow */
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+        }
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .input-section label {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #fff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        .input-section input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+            background-color: #1a1a2e;
+            color: #fff;
+            box-shadow: 0 0 5px #00ffff;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 10px #6a11cb;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 0 15px #2575fc;
+        }
+        .confirmation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1a1a2e;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 10px #6a11cb;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            color: #fff;
+        }
+        .confirmation p {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+        .confirmation button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(45deg, #2575fc, #6a11cb);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 10px #2575fc;
+        }
+        .confirmation button:hover {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 0 0 15px #6a11cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="time-display" id="currentTime">08:15 AM</div>
+    <div class="input-section">
+        <label for="employeeCode">กรอกรหัสพนักงาน</label>
+        <input type="text" id="employeeCode" maxlength="10" placeholder="Employee Code">
+    </div>
+    <div class="buttons">
+        <button onclick="logTime()">ลงเวลา</button>
+        <button onclick="goBack()">ย้อนกลับ</button>
+    </div>
+
+    <div class="confirmation" id="confirmationBox">
+        <p id="confirmationMessage"></p>
+        <button onclick="closeConfirmation()">ตกลง</button>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const formattedHours = hours % 12 || 12;
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('currentTime').textContent = `${formattedHours}:${formattedMinutes} ${ampm}`;
+        }
+
+        function logTime() {
+            const employeeCode = document.getElementById('employeeCode').value;
+            if (employeeCode) {
+                const confirmationBox = document.getElementById('confirmationBox');
+                const confirmationMessage = document.getElementById('confirmationMessage');
+                confirmationMessage.textContent = `ยืนยันการลงเวลา\nรหัสพนักงาน: ${employeeCode}`;
+                confirmationBox.style.display = 'block';
+                document.getElementById('employeeCode').value = '';
+            } else {
+                alert('กรุณากรอกรหัสพนักงานก่อนลงเวลา');
+            }
+        }
+
+        function closeConfirmation() {
+            document.getElementById('confirmationBox').style.display = 'none';
+        }
+
+        function goBack() {
+            alert('กลับไปยังหน้าก่อนหน้า');
+            // Add actual navigation logic here if needed
+        }
+
+        // Update time display every second
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>
